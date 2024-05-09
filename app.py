@@ -47,12 +47,14 @@ st.write("Options value calculator created using black-scholes model")
 
 a, b  = st.columns([1,1])
 with a:
-    ticker = st.text_input("Ticker:","SPY")
+    ticker = st.text_input("Ticker:","AAPL")
     ticker = ticker.upper()
+    tick = yf.Ticker(ticker)
     price = round(yf.Ticker(ticker).history(period='1s')['Close'][0],2)
     st.metric(label = "Current Price of {}".format(ticker), value = price)
 with b:
-    expiration = st.selectbox("Pick expiry date:", options.get_expiration_dates(ticker), index=0)
+    expiration = st.selectbox("Pick expiry date:", tick.options, index=0)
+
 
 
 calls = options.get_calls(ticker,expiration)
